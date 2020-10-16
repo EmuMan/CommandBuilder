@@ -3,6 +3,7 @@ package io.github.emuman.commandbuilder;
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,10 @@ public abstract class NodeBase {
         CommandTraceLog traceLog = new CommandTraceLog();
         onExecute(args, values, traceLog);
         return traceLog;
+    }
+
+    public CommandTraceLog run(String[] args) throws CommandStructureException {
+        return run(args, new HashMap<>());
     }
 
     public abstract void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) throws CommandStructureException;

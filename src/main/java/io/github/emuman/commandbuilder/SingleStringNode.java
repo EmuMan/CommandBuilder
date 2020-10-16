@@ -22,6 +22,16 @@ public class SingleStringNode extends NodeBase {
         this.options = options;
     }
 
+    /**
+     * A node for parsing an integer out of an argument
+     *
+     * @param name the name of the node
+     */
+    public SingleStringNode(String name) {
+        super(name);
+        this.options = null;
+    }
+
     @Override
     public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) throws CommandStructureException {
         if (args.length == 0) {
@@ -29,10 +39,13 @@ public class SingleStringNode extends NodeBase {
             return;
         }
         String choice = args[0].toLowerCase();
-        // make sure variable is in the list of options
-        if (!options.contains(choice)) {
-            addTraceLogData(traceLog, CommandTraceLog.ReturnCode.INVALID_ARGUMENT, null);
-            return;
+        // if there are specific options for this string
+        if (options != null && options.size() != 0) {
+            // make sure variable is in the list of options
+            if (!options.contains(choice)) {
+                addTraceLogData(traceLog, CommandTraceLog.ReturnCode.INVALID_ARGUMENT, null);
+                return;
+            }
         }
         addTraceLogData(traceLog, CommandTraceLog.ReturnCode.SUCCESS, choice);
         values.put(getName(), choice);
@@ -51,7 +64,13 @@ public class SingleStringNode extends NodeBase {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(choice);
         } else {
-            traceLog.addTrace("[" + String.join("|", options) + "]");
+            if (options == null || options.size() == 0) {
+                // there are no options, display name of node
+                traceLog.addTrace("<" + getName() + ">");
+            } else {
+                // there are options to choose from, display that
+                traceLog.addTrace("[" + String.join("|", options) + "]");
+            }
             traceLog.setReturnCode(code);
         }
     }
