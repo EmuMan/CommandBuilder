@@ -52,7 +52,7 @@ public class CommandTraceLog {
     }
 
     public String toString() {
-        return returnCode + " > " + getTraceString() + (message == null ? "" : "(" + message + ")");
+        return returnCode + " > " + getTraceString() + (message == null ? "" : " (" + message + ")");
     }
 
 }
