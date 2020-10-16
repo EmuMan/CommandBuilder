@@ -1,9 +1,6 @@
 package io.github.emuman.cbtest;
 
-import io.github.emuman.commandbuilder.EndNode;
-import io.github.emuman.commandbuilder.BranchNode;
-import io.github.emuman.commandbuilder.IntegerNode;
-import io.github.emuman.commandbuilder.SingleStringNode;
+import io.github.emuman.commandbuilder.*;
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 
 import java.util.Arrays;
@@ -55,14 +52,32 @@ public class Test {
 
         argParse.addNode(setValueChoices).addNode(getValueChoices).addNode(startEnd);
 
-        System.out.println(argParse.run(new String[] {"set"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"bruh"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"get"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"get", "radius"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"set", "radius", "40"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"get", "radius"}, new HashMap<>()));
-        System.out.println(argParse.run(new String[] {"start"}, new HashMap<>()));
+        System.out.println(argParse.run(new String[] {"set"}));
+        System.out.println(argParse.run(new String[] {"bruh"}));
+        System.out.println(argParse.run(new String[] {"get"}));
+        System.out.println(argParse.run(new String[] {}));
+        System.out.println(argParse.run(new String[] {"set", "radius"}));
+        System.out.println(argParse.run(new String[] {"get", "radius"}));
+        System.out.println(argParse.run(new String[] {"set", "radius", "40"}));
+        System.out.println(argParse.run(new String[] {"get", "radius"}));
+        System.out.println(argParse.run(new String[] {"start"}));
+
+
+        /* ------------------------------------ */
+        System.out.println("\n--------------\n");
+
+        NodeBase repeat = new SingleStringNode("word")
+                .addNode(new IntegerNode("amount", 1, 10)
+                .addNode(new EndNode("end", (values -> {
+                    for (int i = 0; i < (int) values.get("amount"); i++)
+                        System.out.println(values.get("word"));
+                }))));
+
+
+        System.out.println(repeat.run(new String[] {"hello", "5"}));
+        System.out.println(repeat.run(new String[] {"hello", "12"}));
+        System.out.println(repeat.run(new String[] {"hello"}));
+        System.out.println(repeat.run(new String[] {"hello", "e"}));
     }
 
 }
