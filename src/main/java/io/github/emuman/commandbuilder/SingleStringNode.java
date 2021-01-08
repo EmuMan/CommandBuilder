@@ -1,6 +1,5 @@
 package io.github.emuman.commandbuilder;
 
-import com.sun.istack.internal.Nullable;
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 
 import java.util.Arrays;
@@ -60,7 +59,7 @@ public class SingleStringNode extends NodeBase {
         return new SingleStringNode(name, options);
     }
 
-    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, @Nullable String choice) {
+    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, String choice) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(choice);
         } else {

@@ -14,7 +14,7 @@ public class CommandTraceLog {
     }
 
     private ReturnCode returnCode;
-    private List<String> traceLog;
+    private final List<String> traceLog;
     private String message;
 
     public CommandTraceLog() {

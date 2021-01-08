@@ -1,7 +1,5 @@
 package io.github.emuman.commandbuilder;
 
-import com.sun.deploy.util.StringUtils;
-import com.sun.istack.internal.Nullable;
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 
 import java.util.Arrays;
@@ -49,7 +47,7 @@ public class BranchNode extends NodeBase {
      * @param code whether or not it was successful, and if not, what went wrong
      * @param choice the node/branch that was chosen by the argument, if any
      */
-    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, @Nullable NodeBase choice) {
+    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, NodeBase choice) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             // don't need to update return code, that will be done either at the end or when something does fail
             traceLog.addTrace(choice.getName());

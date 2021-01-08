@@ -1,13 +1,11 @@
 package io.github.emuman.commandbuilder;
 
-import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
-
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class EndNode extends NodeBase {
 
-    private Consumer<Map<String, Object>> function;
+    private final Consumer<Map<String, Object>> function;
 
     public EndNode(String name, Consumer<Map<String, Object>> function) {
         super(name);

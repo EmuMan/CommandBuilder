@@ -1,16 +1,14 @@
 package io.github.emuman.commandbuilder;
 
-import com.sun.istack.internal.Nullable;
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class IntegerNode extends NodeBase {
 
-    private int lowerBound;
-    private int upperBound;
+    private final int lowerBound;
+    private final int upperBound;
 
     /**
      * A node for parsing an integer out of an argument
@@ -31,7 +29,7 @@ public class IntegerNode extends NodeBase {
             addTraceLogData(traceLog, CommandTraceLog.ReturnCode.MISSING_ARGUMENT, null);
             return;
         }
-        int value = 0;
+        int value;
         try {
             value = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
@@ -58,7 +56,7 @@ public class IntegerNode extends NodeBase {
         return new IntegerNode(name, lowerBound, upperBound);
     }
 
-    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, @Nullable Integer value) {
+    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, Integer value) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(value.toString());
         } else {

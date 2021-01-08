@@ -10,7 +10,7 @@ import java.util.Map;
 public abstract class NodeBase {
 
     private String name;
-    private List<NodeBase> nodes;
+    private final List<NodeBase> nodes;
 
     public NodeBase(String name) {
         this.name = name;
