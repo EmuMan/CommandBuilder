@@ -2,10 +2,12 @@ package io.github.emuman.commandbuilder;
 
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlayerNode extends NodeBase{
 
@@ -38,6 +40,15 @@ public class PlayerNode extends NodeBase{
         return new PlayerNode(name);
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 1) {
+            return Bukkit.getOnlinePlayers().stream().map(Player::getName).filter(s -> s.toLowerCase().startsWith(args[0])).collect(Collectors.toList());
+        } else {
+            return getNodes().get(0).onTabComplete(sender, cmd, label, Arrays.copyOfRange(args, 1, args.length));
+        }
+    }
+
     public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, String choice) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(choice);
@@ -46,5 +57,4 @@ public class PlayerNode extends NodeBase{
             traceLog.setReturnCode(code);
         }
     }
-
 }

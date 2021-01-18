@@ -1,8 +1,12 @@
 package io.github.emuman.commandbuilder;
 
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -38,6 +42,26 @@ public class BranchNode extends NodeBase {
     public NodeBase createCopy(String name) {
         // pretty much useless on this node
         return new BranchNode(name);
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        // if we are looking at the last argument in the list (arguments are removed from first to last)
+        if (args.length == 1) {
+            // gosh i am so fancy
+            // (basically take all of the node names and whichever ones start with what is supplied in the argument
+            // add it to the list of tab completions)
+            return getNodes().stream().map(NodeBase::toString).filter(s -> s.toLowerCase().startsWith(args[0])).collect(Collectors.toList());
+        } else {
+            // follow the branch and suggest whatever is next
+            for (NodeBase n : getNodes()) {
+                if (n.toString().equalsIgnoreCase(args[0])) {
+                    return n.onTabComplete(sender, cmd, label, Arrays.copyOfRange(args, 1, args.length));
+                }
+            }
+            // the specified argument does not match any branch, so we should return an empty suggestion list
+            return new ArrayList<>();
+        }
     }
 
     /**

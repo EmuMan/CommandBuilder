@@ -1,5 +1,10 @@
 package io.github.emuman.commandbuilder;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -26,4 +31,11 @@ public class EndNode extends NodeBase {
         return new EndNode(name, function);
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+        // this tab complete should never be used because an end node is not technically part of the chain, meaning
+        // if the arguments get to this point there are extra arguments and nothing should be suggested.
+        // we can suggest no completions by just returning an empty list
+        return new ArrayList<>();
+    }
 }

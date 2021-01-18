@@ -1,10 +1,11 @@
 package io.github.emuman.commandbuilder;
 
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SingleStringNode extends NodeBase {
 
@@ -57,6 +58,19 @@ public class SingleStringNode extends NodeBase {
     @Override
     public NodeBase createCopy(String name) {
         return new SingleStringNode(name, options);
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 1) {
+            if (options != null && options.size() != 0) {
+                return options.stream().filter(s -> s.toLowerCase().startsWith(args[0])).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>(Collections.singletonList("<" + getName() + ">"));
+            }
+        } else {
+            return getNodes().get(0).onTabComplete(sender, cmd, label, Arrays.copyOfRange(args, 1, args.length));
+        }
     }
 
     public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, String choice) {

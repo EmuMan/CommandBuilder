@@ -1,13 +1,16 @@
 package io.github.emuman.commandbuilder;
 
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class NodeBase {
+public abstract class NodeBase implements TabCompleter {
 
     private String name;
     private final List<NodeBase> nodes;

@@ -1,9 +1,10 @@
 package io.github.emuman.commandbuilder;
 
 import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 public class IntegerNode extends NodeBase {
 
@@ -56,6 +57,15 @@ public class IntegerNode extends NodeBase {
         return new IntegerNode(name, lowerBound, upperBound);
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 1) {
+            return new ArrayList<>(Collections.singletonList("<" + getName() + ">"));
+        } else {
+            return getNodes().get(0).onTabComplete(sender, cmd, label, Arrays.copyOfRange(args, 1, args.length));
+        }
+    }
+
     public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, Integer value) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(value.toString());
@@ -64,5 +74,4 @@ public class IntegerNode extends NodeBase {
             traceLog.setReturnCode(code);
         }
     }
-
 }
