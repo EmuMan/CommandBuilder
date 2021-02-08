@@ -25,7 +25,8 @@ public class IntegerNode extends NodeBase {
     }
 
     @Override
-    public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) throws CommandStructureException {
+    protected void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+            throws CommandStructureException {
         if (args.length == 0) {
             addTraceLogData(traceLog, CommandTraceLog.ReturnCode.MISSING_ARGUMENT, null);
             return;
@@ -49,7 +50,7 @@ public class IntegerNode extends NodeBase {
         if (getNodes().size() == 0) {
             throw new CommandStructureException("IntegerNode must point towards one other node");
         }
-        getNodes().get(0).onExecute(Arrays.copyOfRange(args, 1, args.length), values, traceLog);
+        getNodes().get(0).onExecute(sender, Arrays.copyOfRange(args, 1, args.length), values, traceLog);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class IntegerNode extends NodeBase {
         }
     }
 
-    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, Integer value) {
+    private void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, Integer value) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             traceLog.addTrace(value.toString());
         } else {

@@ -17,7 +17,8 @@ public class BranchNode extends NodeBase {
     }
 
     @Override
-    public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) throws CommandStructureException {
+    public void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+            throws CommandStructureException {
         if (args.length == 0) {
             addTraceLogData(traceLog, CommandTraceLog.ReturnCode.MISSING_ARGUMENT, null);
             return;
@@ -30,7 +31,7 @@ public class BranchNode extends NodeBase {
                 // found the correct node, run it
                 addTraceLogData(traceLog, CommandTraceLog.ReturnCode.SUCCESS, node);
                 values.put(getName(), node.getName());
-                node.onExecute(Arrays.copyOfRange(args, 1, args.length), values, traceLog);
+                node.onExecute(sender, Arrays.copyOfRange(args, 1, args.length), values, traceLog);
                 return;
             }
         }
@@ -71,7 +72,7 @@ public class BranchNode extends NodeBase {
      * @param code whether or not it was successful, and if not, what went wrong
      * @param choice the node/branch that was chosen by the argument, if any
      */
-    public void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, NodeBase choice) {
+    private void addTraceLogData(CommandTraceLog traceLog, CommandTraceLog.ReturnCode code, NodeBase choice) {
         if (code == CommandTraceLog.ReturnCode.SUCCESS) {
             // don't need to update return code, that will be done either at the end or when something does fail
             traceLog.addTrace(choice.getName());

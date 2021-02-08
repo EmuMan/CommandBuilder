@@ -27,17 +27,20 @@ public abstract class NodeBase implements TabCompleter {
      * @param values the values that have been collected
      * @return the tracelog containing information about execution
      */
-    public CommandTraceLog run(String[] args, Map<String, Object> values) throws CommandStructureException {
+    public CommandTraceLog run(CommandSender sender, String[] args, Map<String, Object> values)
+            throws CommandStructureException {
         CommandTraceLog traceLog = new CommandTraceLog();
-        onExecute(args, values, traceLog);
+        onExecute(sender, args, values, traceLog);
         return traceLog;
     }
 
-    public CommandTraceLog run(String[] args) throws CommandStructureException {
-        return run(args, new HashMap<>());
+    public CommandTraceLog run(CommandSender sender, String[] args) throws CommandStructureException {
+        return run(sender, args, new HashMap<>());
     }
 
-    public abstract void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) throws CommandStructureException;
+
+    protected abstract void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+            throws CommandStructureException;
 
     public abstract NodeBase createCopy(String name);
 
