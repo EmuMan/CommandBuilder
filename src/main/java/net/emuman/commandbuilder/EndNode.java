@@ -1,4 +1,4 @@
-package io.github.emuman.commandbuilder;
+package net.emuman.commandbuilder;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ public class EndNode extends NodeBase {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog) {
+    public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog) {
         if (args.length != 0) {
             traceLog.setReturnCode(CommandTraceLog.ReturnCode.EXTRA_ARGUMENT);
         }

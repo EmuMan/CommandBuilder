@@ -1,6 +1,6 @@
-package io.github.emuman.commandbuilder;
+package net.emuman.commandbuilder;
 
-import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import net.emuman.commandbuilder.exceptions.CommandStructureException;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ public class OfflinePlayerNode extends NodeBase{
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+    public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog)
             throws CommandStructureException {
         if (args.length == 0) {
             addTraceLogData(traceLog, CommandTraceLog.ReturnCode.MISSING_ARGUMENT, null);
@@ -39,7 +39,7 @@ public class OfflinePlayerNode extends NodeBase{
         if (getNodes().size() == 0) {
             throw new CommandStructureException("PlayerNode must point towards one other node");
         }
-        getNodes().get(0).onExecute(sender, Arrays.copyOfRange(args, 1, args.length), values, traceLog);
+        getNodes().get(0).onExecute(Arrays.copyOfRange(args, 1, args.length), values, traceLog);
     }
 
     @Override

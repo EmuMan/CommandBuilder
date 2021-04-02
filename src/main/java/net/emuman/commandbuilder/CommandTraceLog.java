@@ -1,4 +1,4 @@
-package io.github.emuman.commandbuilder;
+package net.emuman.commandbuilder;
 
 import java.util.ArrayList;
 import java.util.List;

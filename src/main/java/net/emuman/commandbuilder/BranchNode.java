@@ -1,6 +1,6 @@
-package io.github.emuman.commandbuilder;
+package net.emuman.commandbuilder;
 
-import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
+import net.emuman.commandbuilder.exceptions.CommandStructureException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -17,7 +17,7 @@ public class BranchNode extends NodeBase {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+    public void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog)
             throws CommandStructureException {
         if (args.length == 0) {
             addTraceLogData(traceLog, CommandTraceLog.ReturnCode.MISSING_ARGUMENT, null);
@@ -31,7 +31,7 @@ public class BranchNode extends NodeBase {
                 // found the correct node, run it
                 addTraceLogData(traceLog, CommandTraceLog.ReturnCode.SUCCESS, node);
                 values.put(getName(), node.getName());
-                node.onExecute(sender, Arrays.copyOfRange(args, 1, args.length), values, traceLog);
+                node.onExecute(Arrays.copyOfRange(args, 1, args.length), values, traceLog);
                 return;
             }
         }

@@ -1,4 +1,4 @@
-package io.github.emuman.commandbuilder.exceptions;
+package net.emuman.commandbuilder.exceptions;
 
 public class CommandStructureException extends Exception {
 

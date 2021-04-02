@@ -1,7 +1,6 @@
-package io.github.emuman.commandbuilder;
+package net.emuman.commandbuilder;
 
-import io.github.emuman.commandbuilder.exceptions.CommandStructureException;
-import org.bukkit.command.Command;
+import net.emuman.commandbuilder.exceptions.CommandStructureException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
@@ -29,8 +28,11 @@ public abstract class NodeBase implements TabCompleter {
      */
     public CommandTraceLog run(CommandSender sender, String[] args, Map<String, Object> values)
             throws CommandStructureException {
+        if (sender != null) {
+            values.put("sender", sender);
+        }
         CommandTraceLog traceLog = new CommandTraceLog();
-        onExecute(sender, args, values, traceLog);
+        onExecute(args, values, traceLog);
         return traceLog;
     }
 
@@ -38,8 +40,17 @@ public abstract class NodeBase implements TabCompleter {
         return run(sender, args, new HashMap<>());
     }
 
+    public CommandTraceLog run(String[] args, Map<String, Object> values)
+            throws CommandStructureException {
+        return run(null, args, values);
+    }
 
-    protected abstract void onExecute(CommandSender sender, String[] args, Map<String, Object> values, CommandTraceLog traceLog)
+    public CommandTraceLog run(String[] args) throws CommandStructureException {
+        return run(null, args, new HashMap<>());
+    }
+
+
+    protected abstract void onExecute(String[] args, Map<String, Object> values, CommandTraceLog traceLog)
             throws CommandStructureException;
 
     public abstract NodeBase createCopy(String name);
